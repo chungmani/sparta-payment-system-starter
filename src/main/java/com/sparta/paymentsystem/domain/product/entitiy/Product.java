@@ -34,14 +34,22 @@ public class Product extends BaseTimeEntity {
         if (price < 0) {
             throw new BusinessException(ErrorCode.INVALID_PRICE);
         }
-
         if (stock < 0) {
             throw new BusinessException(ErrorCode.INVALID_STOCK);
         }
-
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.description = description;
+    }
+
+    public void deductStock(int quantity) {
+        if (quantity <= 0) {
+            throw new BusinessException(ErrorCode.INVALID_QUANTITY);
+        }
+        if (quantity > this.stock) {
+            throw new BusinessException(ErrorCode.INSUFFICIENT_STOCK);
+        }
+        this.stock -= quantity;
     }
 }
